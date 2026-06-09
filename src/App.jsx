@@ -7,6 +7,7 @@ const [Selectedlanguage,setSelectedlanguage]=useState("All")
 const [Searchcontent, setSearchcontent]=useState("")
 const [Selectedsnippet,setSelectedsnippet]=useState(null)
 const [Favourites,setFavourites]=useState(false)
+const [ShowCreateModal, setShowCreateModal]=useState(false)
 
 return(
 
@@ -15,8 +16,8 @@ return(
   setSelectedlanguage={setSelectedlanguage}
   Searchcontent={Searchcontent}
   setSearchcontent={setSearchcontent}
-  
   setFavourites={setFavourites}
+  setShowCreateModal={setShowCreateModal}
 >
    
 <Dashboard
@@ -26,6 +27,8 @@ return(
   setSelectedsnippet={setSelectedsnippet}
   Favourites={Favourites}
   setFavourites={setFavourites}
+  ShowCreateModal={ShowCreateModal}
+  setShowCreateModal={setShowCreateModal}
   />
 
 </Layout>

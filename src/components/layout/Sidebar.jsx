@@ -1,7 +1,8 @@
 function Sidebar({
     Selectedlanguage,
     setSelectedlanguage,
-    setFavourites
+    setFavourites,
+    setShowCreateModal
 }){
     const languages=[
           "typescript",
@@ -47,7 +48,7 @@ function Sidebar({
                 </ul>
             </div>
             <div>
-                <button className="p-3 rounded bg-yellow-600">+New Snippet</button>
+                <button className="p-3 rounded bg-yellow-600 cursor-pointer" onClick={()=> setShowCreateModal(true)}>+New Snippet</button>
             </div>
         </div>
     )

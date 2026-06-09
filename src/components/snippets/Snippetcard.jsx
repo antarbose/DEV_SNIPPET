@@ -5,13 +5,11 @@ function Snippetcard({snippet,Selectedsnippet,setSelectedsnippet,togglefavourite
             <h2 className="text-xl font-bold mb-2">{snippet.title}</h2>
             <div className="bg-black rounded-lg  p-4 h-[60%] overflow-hidden ">
                 <pre>
-                    import time
-                    import functools
-                    ........
+                    {snippet.code}
                 </pre>
             </div>
             <div className="flex gap-1"> 
-                {snippet.tags.map((tag)=>(
+                {(snippet.tags.split(",")).map((tag)=>(
                     <div  key={tag} className="bg-[#003153] border border-gray-300 rounded-lg p-1" >
                     {tag}
                     </div>
