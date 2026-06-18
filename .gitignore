@@ -1,0 +1,7 @@
+snippet_frontend/node_modules
+snippet_backend/node_modules
+
+snippet_backend/.env
+
+dist
+build

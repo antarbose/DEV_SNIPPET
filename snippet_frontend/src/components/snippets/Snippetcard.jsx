@@ -1,0 +1,30 @@
+import { FiEdit } from "react-icons/fi"
+function Snippetcard({snippet,Selectedsnippet,setSelectedsnippet,togglefavourites}){
+    return(
+        <div className="text-white border border-gray-800 bg-[#10141A] rounded-xl h-70 flex flex-col gap-2 p-3 self-start cursor-pointer" onClick={()=>setSelectedsnippet(snippet)}>
+            <div className="flex  justify-between">
+            <h3 className="text-blue-400  text-sm mb-3">{snippet.language}</h3>
+            <button className="p-2 rounded hover:bg-gray-700 text-gray-300 hover:text-white">
+                   <FiEdit size={18}/>
+           </button>
+           </div>
+            <h2 className="text-xl font-bold mb-2">{snippet.title}</h2>
+            <div className="bg-black rounded-lg  p-4 h-[60%] overflow-hidden ">
+                <pre>
+                    {snippet.code}
+                </pre>
+            </div>
+            <div className="flex gap-1"> 
+                {(snippet.tags.split(",")).map((tag)=>(
+                    <div  key={tag} className="bg-[#003153] border border-gray-300 rounded-lg p-1" >
+                    {tag}
+                    </div>
+                ))
+                  }
+                <button className={snippet.fav==false ? "bg-grey border border-gray-300 rounded-lg p-1" : "bg-orange-500 border border-gray-300 rounded-lg p-1"} onClick={(e)=>{ e.stopPropagation() 
+                                                                                                                                                                               togglefavourites(snippet.id)}}>Mark as Fav</button>
+            </div>
+        </div>
+    )
+}
+export default Snippetcard
