@@ -1,17 +1,268 @@
-function Header({Searchcontent,setSearchcontent,setFavourites}){
-    return(
-        <div className="flex justify-between items-center px-8 py-6 text-white bg-[#003153]">
-            <h2>All Snippets</h2>
-            <input 
-                type="text"
-                placeholder="Search sementically...."
-                className="w-[400px] bg-[#111] rounded-lg p-3"
-                value={Searchcontent}
-                onChange={(e)=>{setFavourites(false)
-                    setSearchcontent(e.target.value)}}
-            />
-            <button className="p-3 rounded-lg bg-yellow-600">+New</button>
-        </div>
+import { Link } from "react-router-dom"
+import { Search, Sparkles } from "lucide-react"
+
+function AppHeader({
+    Searchcontent,
+    setSearchcontent,
+    setFavourites
+}) {
+
+    return (
+
+        <header
+            className="
+            h-24
+            flex
+            items-center
+            justify-between
+
+            px-8
+
+            bg-[#09090b]/80
+            backdrop-blur-xl
+
+            border-b
+            border-white/10
+
+            text-white
+            "
+        >
+
+
+            {/* Title */}
+
+            <div
+                className="
+                flex
+                items-center
+                gap-3
+                "
+            >
+
+                <div
+                    className="
+                    h-10
+                    w-10
+
+                    flex
+                    items-center
+                    justify-center
+
+                    rounded-xl
+
+                    bg-gradient-to-br
+                    from-blue-500
+                    to-purple-600
+
+                    shadow-lg
+                    shadow-blue-500/20
+                    "
+                >
+
+                    <Sparkles
+                        size={20}
+                        className="text-white"
+                    />
+
+                </div>
+
+
+                <div>
+
+                    <h2
+                        className="
+                        text-lg
+                        font-semibold
+                        tracking-tight
+                        "
+                    >
+                        All Snippets
+                    </h2>
+
+
+                    <p
+                        className="
+                        text-xs
+                        text-zinc-500
+                        "
+                    >
+                        Your personal code library
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+            {/* Search */}
+
+            <div
+                className="
+                relative
+                w-[420px]
+                "
+            >
+
+                <Search
+                    size={18}
+                    className="
+                    absolute
+                    left-4
+                    top-1/2
+                    -translate-y-1/2
+                    text-zinc-500
+                    "
+                />
+
+
+                <input
+
+                    type="text"
+
+                    placeholder="Search semantically..."
+
+                    value={Searchcontent}
+
+                    onChange={(e) => {
+
+                        setFavourites(false)
+
+                        setSearchcontent(e.target.value)
+
+                    }}
+
+
+                    className="
+                    w-full
+                    h-12
+
+                    rounded-xl
+
+                    bg-white/[0.06]
+
+                    border
+                    border-white/10
+
+                    pl-12
+                    pr-4
+
+                    text-sm
+                    text-white
+
+                    placeholder:text-zinc-500
+
+                    outline-none
+
+                    focus:border-blue-500/50
+
+                    focus:ring-2
+                    focus:ring-blue-500/20
+
+                    transition-all
+
+                    font-[Geist]
+                    "
+
+                />
+
+            </div>
+
+
+
+
+
+            {/* Buttons */}
+
+
+            <div
+                className="
+                flex
+                items-center
+                gap-3
+                "
+            >
+
+                <Link to="/login">
+
+                    <button
+
+                        className="
+                        h-11
+                        px-5
+
+                        rounded-xl
+
+                        border
+                        border-white/10
+
+                        bg-white/[0.04]
+
+                        text-zinc-300
+
+                        hover:bg-white/10
+
+                        hover:text-white
+
+                        transition-all
+
+                        "
+                    >
+
+                        Login
+
+                    </button>
+
+                </Link>
+
+
+
+                <Link to="/signup">
+
+                    <button
+
+                        className="
+                        h-11
+                        px-5
+
+                        rounded-xl
+
+                        bg-gradient-to-r
+                        from-blue-600
+                        to-indigo-600
+
+                        text-white
+
+                        font-medium
+
+                        shadow-lg
+                        shadow-blue-500/20
+
+                        hover:from-blue-500
+                        hover:to-indigo-500
+
+                        transition-all
+
+                        "
+                    >
+
+                        Signup
+
+                    </button>
+
+                </Link>
+
+
+            </div>
+
+
+
+        </header>
+
     )
 }
-export default Header
+
+export default AppHeader

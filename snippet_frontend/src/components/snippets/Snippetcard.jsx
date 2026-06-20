@@ -1,30 +1,350 @@
 import { FiEdit } from "react-icons/fi"
-function Snippetcard({snippet,Selectedsnippet,setSelectedsnippet,togglefavourites}){
-    return(
-        <div className="text-white border border-gray-800 bg-[#10141A] rounded-xl h-70 flex flex-col gap-2 p-3 self-start cursor-pointer" onClick={()=>setSelectedsnippet(snippet)}>
-            <div className="flex  justify-between">
-            <h3 className="text-blue-400  text-sm mb-3">{snippet.language}</h3>
-            <button className="p-2 rounded hover:bg-gray-700 text-gray-300 hover:text-white">
-                   <FiEdit size={18}/>
-           </button>
-           </div>
-            <h2 className="text-xl font-bold mb-2">{snippet.title}</h2>
-            <div className="bg-black rounded-lg  p-4 h-[60%] overflow-hidden ">
-                <pre>
-                    {snippet.code}
-                </pre>
-            </div>
-            <div className="flex gap-1"> 
-                {(snippet.tags.split(",")).map((tag)=>(
-                    <div  key={tag} className="bg-[#003153] border border-gray-300 rounded-lg p-1" >
-                    {tag}
-                    </div>
-                ))
-                  }
-                <button className={snippet.fav==false ? "bg-grey border border-gray-300 rounded-lg p-1" : "bg-orange-500 border border-gray-300 rounded-lg p-1"} onClick={(e)=>{ e.stopPropagation() 
-                                                                                                                                                                               togglefavourites(snippet.id)}}>Mark as Fav</button>
-            </div>
-        </div>
+
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card"
+
+import { Badge } from "@/components/ui/badge"
+
+import { Button } from "@/components/ui/button"
+
+
+
+function Snippetcard({
+    snippet,
+    Selectedsnippet,
+    setSelectedsnippet,
+    togglefavourites,
+    // setShowEditSnippet,
+    // editId,
+    //setEditId
+}) {
+
+
+    return (
+
+        <Card
+
+            onClick={() => setSelectedsnippet(snippet)}
+
+            className="
+group
+
+cursor-pointer
+
+bg-[#111318]
+
+border
+
+border-white/10
+
+rounded-2xl
+
+text-white
+
+transition-all
+
+duration-300
+
+hover:-translate-y-1
+
+hover:border-blue-500/40
+
+hover:shadow-xl
+
+hover:shadow-blue-500/10
+
+"
+
+        >
+
+
+            <CardHeader
+                className="
+pb-3
+"
+            >
+
+
+                <div
+                    className="
+flex
+
+items-center
+
+justify-between
+"
+                >
+
+
+                    <Badge
+
+                        variant="outline"
+
+                        className="
+border-blue-500/30
+
+bg-blue-500/10
+
+text-blue-400
+
+uppercase
+
+text-xs
+
+tracking-wider
+"
+
+                    >
+
+                        {snippet.language}
+
+                    </Badge>
+
+
+                    {/* 
+                    <Button
+
+                        size="icon"
+
+                        variant="ghost"
+
+                        className="
+text-zinc-400
+
+hover:text-white
+
+hover:bg-white/10
+"
+
+                        onClick={(e) => {
+
+                            e.stopPropagation()
+
+                            setShowEditSnippet(true)
+
+                            setEditId(snippet.id)
+
+                        }}
+
+                    >
+
+                        <FiEdit size={18} />
+
+                    </Button> */}
+
+
+                </div>
+
+
+
+
+                <CardTitle
+
+                    className="
+mt-3
+
+text-xl
+
+font-semibold
+
+tracking-tight
+"
+
+                >
+
+                    {snippet.title}
+
+                </CardTitle>
+
+
+            </CardHeader>
+
+
+
+
+
+            <CardContent>
+
+
+                <div
+
+                    className="
+rounded-xl
+
+bg-black
+
+border
+
+border-white/10
+
+p-4
+
+h-32
+
+overflow-hidden
+"
+
+                >
+
+                    <pre
+
+                        className="
+font-mono
+
+text-sm
+
+text-zinc-300
+
+whitespace-pre-wrap
+"
+
+                    >
+
+                        {snippet.code}
+
+                    </pre>
+
+
+                </div>
+
+
+            </CardContent>
+
+
+
+
+
+            <CardFooter
+
+                className="
+flex
+
+items-center
+
+justify-between
+
+gap-2
+
+flex-wrap
+"
+
+            >
+
+
+                <div
+
+                    className="
+flex
+
+gap-2
+
+flex-wrap
+"
+
+                >
+
+
+                    {
+                        snippet.tags.split(",").map(tag => (
+
+                            <Badge
+
+                                key={tag}
+
+                                className="
+rounded-full
+
+bg-white/5
+
+border
+
+border-white/10
+
+text-zinc-300
+
+hover:bg-blue-500/10
+
+"
+
+                            >
+
+                                #{tag.trim()}
+
+                            </Badge>
+
+
+                        ))
+
+                    }
+
+
+
+                </div>
+
+
+
+
+
+                <Button
+
+                    size="sm"
+
+                    variant={
+                        snippet.fav
+                            ? "default"
+                            : "outline"
+                    }
+
+
+                    onClick={(e) => {
+
+                        e.stopPropagation()
+
+                        togglefavourites(snippet.id)
+
+                    }}
+
+
+                    className={
+
+                        snippet.fav
+
+                            ?
+
+                            "bg-orange-500 hover:bg-orange-400 text-white"
+
+                            :
+
+                            "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10"
+
+                    }
+
+
+                >
+
+                    {snippet.fav ? "★ Fav" : "☆ Fav"}
+
+
+                </Button>
+
+
+
+
+            </CardFooter>
+
+
+
+        </Card>
+
+
     )
+
 }
+
+
 export default Snippetcard

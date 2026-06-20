@@ -1,9 +1,11 @@
 import { useState } from "react";
 import Snippetcard from "../components/snippets/Snippetcard.jsx";
-import Sidebar from "../components/layout/Sidebar.jsx";
+import Sidebar from "../components/layout/AppSidebar.jsx";
 import Snippetmodal from "../components/snippets/Snippetmodal.jsx";
 import CreateSnippetModal from "../components/snippets/CreateSnippetModal.jsx";
+//import Editsnippet from "../components/snippets/Editsnippet.jsx";
 function Dashboard({Selectedlanguage,Searchcontent,Selectedsnippet,setSelectedsnippet,Favourites,setFavourites,ShowCreateModal, setShowCreateModal}) {
+    const [editId,setEditId]=useState(0) // To store the id of the snippet to be edited
     const[snippets,setSnippets]=useState([   // snippets is given under state because we want to update snippets whenever we click on Mark as fav of a particular snippet...the key value pair "fav" of that snippet must change
 
 {
@@ -193,6 +195,33 @@ function AddSnippetToDashboard(id,lang,title,description,tags,code){ // This fun
 }
 
 
+function EditSnippet(id){
+    setSnippets(()=>{
+       return  snippets.map((snippet)=>{
+           if (id===snippet.id){
+            return({
+             id:snippet.id,
+             language:snippet.language,
+             title:snippet.title,
+             description:snippet.description,
+             tags:snippet.tags,
+             fav:!snippet.fav,
+             code:snippet.code
+            })
+            
+          }
+           else return snippet
+        })
+    })
+}
+
+// function OriginalSnippet(){ // this function returns the original snippet before editing....the snippet values will be send to editsnippetcard ....
+//      snippets.forEach((snippet)=>{
+//         if(snippet.id==editId)
+//             return snippet
+//      })
+// }
+
 console.log(showSnippets)
 return (
 
@@ -208,6 +237,8 @@ return (
             Selectedsnippet={Selectedsnippet}
             setSelectedsnippet={setSelectedsnippet}
             togglefavourites={togglefavourites}
+            editId={editId}
+            setEditId={setEditId}
            />
          ))}
 
@@ -226,6 +257,14 @@ return (
       snippets={snippets}
       AddSnippetToDashboard={AddSnippetToDashboard}
       />
+      {/* <Editsnippet
+        orgtitle={OriginalSnippet().title} // original title of snippet before editing...
+        orglanguage={OriginalSnippet().language}
+        orgdescription={OriginalSnippet().description}
+        orgtags={OriginalSnippet().tags}
+        orgcode={OriginalSnippet().code}
+      /> */}
+
 </div>
 
 )

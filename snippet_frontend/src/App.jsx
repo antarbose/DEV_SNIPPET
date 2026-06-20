@@ -1,6 +1,10 @@
 import Layout from "./components/layout/Layout.jsx"
 import Dashboard from "./pages/Dashboard.jsx"
 import { useState } from "react"
+import Login from "./pages/Login.jsx"
+import Signup from "./pages/Signup.jsx"
+import {BrowserRouter , Routes, Route } from "react-router-dom"
+
 
 function App(){
 const [Selectedlanguage,setSelectedlanguage]=useState("All")
@@ -10,7 +14,11 @@ const [Favourites,setFavourites]=useState(false)
 const [ShowCreateModal, setShowCreateModal]=useState(false)
 
 return(
-
+<BrowserRouter>
+<Routes>
+<Route
+path="/"
+element={
 <Layout 
   Selectedlanguage={Selectedlanguage}
   setSelectedlanguage={setSelectedlanguage}
@@ -32,6 +40,23 @@ return(
   />
 
 </Layout>
+}
+/>
+
+<Route 
+path="/signup"
+element={<Signup/>}
+/>
+
+<Route 
+path="/login"
+element={<Login/>}
+/>
+
+</Routes>
+</BrowserRouter>
+
+
 
 )
 

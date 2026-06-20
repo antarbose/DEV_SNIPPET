@@ -1,26 +1,95 @@
-import Sidebar from "./Sidebar.jsx"
-import Header from "./Header.jsx"
+import AppSidebar from "./AppSidebar"
+import AppHeader from "./Header"
 
-function Layout({Selectedlanguage,setSelectedlanguage,Searchcontent,setSearchcontent,children,setFavourites,setShowCreateModal}){
-    return(
-        <div className="h-screen flex">
-            <Sidebar
-              Selectedlanguage={Selectedlanguage}
-              setSelectedlanguage={setSelectedlanguage}
-              setFavourites={setFavourites}
-              setShowCreateModal={setShowCreateModal}
-              />
-            <div className="flex-1 bg-[#0A0A0A] h-screen overflow-y-auto">
-                <Header
-                  Searchcontent={Searchcontent}
-                  setSearchcontent={setSearchcontent}
-                  setFavourites={setFavourites}
-                  
-                  />
-                {children}
+import {
+    SidebarProvider,
+    SidebarInset
+} from "@/components/ui/sidebar"
+
+function Layout({
+    Selectedlanguage,
+    setSelectedlanguage,
+    Searchcontent,
+    setSearchcontent,
+    children,
+    setFavourites,
+    setShowCreateModal
+}) {
+
+    return (
+
+        <SidebarProvider>
+
+            <div className="
+                flex
+                h-screen
+                w-full
+
+                bg-[#09090b]
+
+                text-white
+
+                overflow-hidden
+                ">
+
+                <AppSidebar
+                    Selectedlanguage={Selectedlanguage}
+                    setSelectedlanguage={setSelectedlanguage}
+                    setFavourites={setFavourites}
+                    setShowCreateModal={setShowCreateModal}
+                />
+
+
+                <SidebarInset
+
+                    className="
+                    flex
+                    flex-col
+
+                    bg-[#09090b]
+
+                    "
+                >
+
+
+                    <AppHeader
+                        Searchcontent={Searchcontent}
+                        setSearchcontent={setSearchcontent}
+                        setFavourites={setFavourites}
+                    />
+
+                    <main
+
+                        className="
+                        flex-1
+
+                        overflow-y-auto
+
+                        p-6
+
+                        scrollbar-thin
+
+                        scrollbar-thumb-zinc-800
+
+                        "
+
+                    >
+
+                        {children}
+
+
+                    </main>
+
+
+
+                </SidebarInset>
+
             </div>
-        </div>
+
+        </SidebarProvider>
+
     )
 
 }
+
 export default Layout

@@ -1,232 +1,515 @@
-import { useState } from "react";
+import { useState } from "react"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription
+} from "@/components/ui/dialog"
+
+import {
+  Card,
+  CardContent
+} from "@/components/ui/card"
+
+import {
+  Input
+} from "@/components/ui/input"
+
+import {
+  Textarea
+} from "@/components/ui/textarea"
+
+import {
+  Button
+} from "@/components/ui/button"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select"
+
+import {
+  Code2,
+  X
+} from "lucide-react"
 
 
-function CreateSnippetModal({ ShowCreateModal, setShowCreateModal,snippets,AddSnippetToDashboard }) {
 
-    const [title,setTitle]=useState("")
-    const [language,setLanguage]=useState("javascript")
-    const [description,setDescription]=useState("")
-    const [tags,setTags]=useState("")
-    const [code,setCode]=useState("")
-if(ShowCreateModal==false)
-    return null 
+function CreateSnippetModal({
+  ShowCreateModal,
+  setShowCreateModal,
+  snippets,
+  AddSnippetToDashboard
+}) {
+
+
+  const [title, setTitle] = useState("")
+  const [language, setLanguage] = useState("javascript")
+  const [description, setDescription] = useState("")
+  const [tags, setTags] = useState("")
+  const [code, setCode] = useState("")
+
+
+
+  function createSnippet() {
+
+
+    if (
+      title.trim() === "" ||
+      tags.trim() === "" ||
+      code.trim() === ""
+    ) {
+
+      return
+
+    }
+
+
+    AddSnippetToDashboard(
+      snippets.length + 1,
+      language,
+      title,
+      description,
+      tags,
+      code
+    )
+
+
+    setShowCreateModal(false)
+
+  }
+
+
+
   return (
-    <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 overflow-y-auto">
 
-      <div className="bg-[#0F172A] text-white w-[700px] rounded-xl p-6 shadow-lg h-[80%]">
+<Dialog
+    open={ShowCreateModal}
+    onOpenChange={setShowCreateModal}
+>
 
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Create New Snippet</h2>
+<DialogContent
+className="
+max-w-[750px]
+max-h-[90vh]
+overflow-hidden
+bg-[#09090b]
+border border-white/10
+rounded-3xl
+text-white
+"
+>
 
-          <button
-            onClick={() => setShowCreateModal(false)}
-            className="text-gray-400 hover:text-white text-xl"
-          >
-            ✕
-          </button>
-        </div>
 
-        {/* Form */}
-        <form className="flex flex-col gap-4">
-           {/* ID */}
-          <div>
-            <label className="block mb-2 font-medium">
-             Snippet ID
-            </label>
+<div className="flex flex-col h-full">
 
-            <input
-              type="number"
-              placeholder="Enter unique ID"
-              value={snippets.length +1} 
-              readOnly
-              className="
-              w-full
-              p-3
-              rounded-lg
-              bg-[#1E293B]
-              border
-              border-gray-700
-              focus:outline-none
-              focus:border-blue-500
-            "
-           />
-        </div>
-          {/* Title */}
-          <div>
-            <label className="block mb-2 font-medium">
-              Title
-            </label>
 
-            <input
-              type="text"
-              placeholder="Enter snippet title"
-              value={title}
-              onChange={(e)=>setTitle(e.target.value)}
-              className="
-                w-full
-                p-3
-                rounded-lg
-                bg-[#1E293B]
-                border
-                border-gray-700
-                focus:outline-none
-                focus:border-blue-500
-              "
-            />
-          </div>
+<DialogHeader className="pb-5">
 
-          {/* Language */}
-          <div>
-            <label className="block mb-2 font-medium">
-              Language
-            </label>
 
-            <select
-              value={language}
-              onChange={(e)=>setLanguage(e.target.value)}
-              className="
-                w-full
-                p-3
-                rounded-lg
-                bg-[#1E293B]
-                border
-                border-gray-700
-                focus:outline-none
-                focus:border-blue-500
-              "
-            >
-              <option value="javascript">JavaScript</option>
-              <option value="typescript">TypeScript</option>
-              <option value="python">Python</option>
-              <option value="sql">SQL</option>
-              <option value="rust">Rust</option>
-              <option value="bash">Bash</option>
-            </select>
-          </div>
+<div className="flex items-center gap-3">
 
-          {/* Description */}
-          <div>
-            <label className="block mb-2 font-medium">
-              Description
-            </label>
 
-            <textarea
-              rows="3"
-              placeholder="Enter description..."
-              value={description}
-              onChange={(e)=>setDescription(e.target.value)}
-              className="
-                w-full
-                p-3
-                rounded-lg
-                bg-[#1E293B]
-                border
-                border-gray-700
-                resize-none
-                focus:outline-none
-                focus:border-blue-500
-              "
-            />
-          </div>
+<div
+className="
+h-11
+w-11
+rounded-2xl
+bg-gradient-to-br
+from-blue-500
+to-purple-600
+flex
+items-center
+justify-center
+"
+>
 
-          {/* Tags */}
-          <div>
-            <label className="block mb-2 font-medium">
-              Tags [Use commas to separate tags]
-            </label>
+<Code2 size={22}/>
 
-            <input
-              type="text"
-              placeholder="#array, #sorting, #database"
-              value={tags}
-              onChange={(e)=>setTags(e.target.value)}
-              className="
-                w-full
-                p-3
-                rounded-lg
-                bg-[#1E293B]
-                border
-                border-gray-700
-                focus:outline-none
-                focus:border-blue-500
-              "
-            />
-          </div>
+</div>
 
-          {/* Code */}
-          <div>
-            <label className="block mb-2 font-medium">
-              Code
-            </label>
 
-            <textarea
-              rows="8"
-              placeholder="Paste your code here..."
-              value={code}
-              onChange={(e)=>setCode(e.target.value)}
-              className="
-                w-full
-                p-3
-                rounded-lg
-                bg-black
-                border
-                border-gray-700
-                font-mono
-                resize-none
-                focus:outline-none
-                focus:border-blue-500
-              "
-            />
-          </div>
+<div>
 
-          {/* Buttons */}
-          <div className="flex justify-end gap-3 mt-2">
+<DialogTitle
+className="
+text-2xl
+font-bold
+"
+>
 
-            <button
-              type="button"
-              onClick={() => setShowCreateModal(false)}
-              className="
-                px-4
-                py-2
-                rounded-lg
-                bg-gray-700
-                hover:bg-gray-600
-              "
-            >
-              Cancel
-            </button>
+Create New Snippet
 
-            <button
-              type="button"
-              onClick={(e)=>{e.preventDefault()
-                            if(language.replaceAll(" ","")=="" || title.replaceAll(" ","")=="" || tags.replaceAll(" ","")=="" || code.replaceAll(" ","")=="")
-                            setShowCreateModal(true)
-                            else{
-                            setShowCreateModal(false)
-                            AddSnippetToDashboard(snippets.length +1,language,title,description,tags,code)
-              }
-              }
-              }
-              className="
-                px-4
-                py-2
-                rounded-lg
-                bg-blue-600
-                hover:bg-blue-700
-              "
-            >
-              Create Snippet
-            </button>
+</DialogTitle>
 
-          </div>
 
-        </form>
+<DialogDescription
+className="
+text-zinc-400
+"
+>
 
-      </div>
+Save your reusable code snippets
 
-    </div>
-  );
+</DialogDescription>
+
+
+</div>
+
+
+</div>
+
+
+</DialogHeader>
+
+
+
+
+
+<div
+className="
+overflow-y-auto
+pr-3
+space-y-5
+max-h-[65vh]
+scrollbar-thin
+scrollbar-thumb-zinc-700
+"
+>
+
+
+
+<Card
+className="
+bg-transparent
+border-none
+"
+>
+
+
+<CardContent
+className="
+space-y-5
+p-0
+"
+>
+
+
+{/* ID */}
+
+<div>
+
+<label className="text-sm text-zinc-400">
+Snippet ID
+</label>
+
+
+<Input
+value={snippets.length+1}
+readOnly
+className="
+mt-2
+bg-white/5
+border-white/10
+"
+/>
+
+</div>
+
+
+
+
+{/* Title */}
+
+<div>
+
+<label className="text-sm text-zinc-400">
+Title
+</label>
+
+
+<Input
+
+placeholder="React debounce hook"
+
+value={title}
+
+onChange={(e)=>setTitle(e.target.value)}
+
+className="
+mt-2
+bg-white/5
+border-white/10
+"
+
+/>
+
+</div>
+
+
+
+
+
+{/* Language */}
+
+<div>
+
+<label className="text-sm text-zinc-400">
+Language
+</label>
+
+
+<Select
+value={language}
+onValueChange={setLanguage}
+>
+
+
+<SelectTrigger
+className="
+mt-2
+bg-white/5
+border-white/10
+"
+>
+
+<SelectValue/>
+
+</SelectTrigger>
+
+
+<SelectContent>
+
+
+<SelectItem value="javascript">
+Javascript
+</SelectItem>
+
+
+<SelectItem value="typescript">
+Typescript
+</SelectItem>
+
+
+<SelectItem value="python">
+Python
+</SelectItem>
+
+
+<SelectItem value="sql">
+SQL
+</SelectItem>
+
+
+<SelectItem value="rust">
+Rust
+</SelectItem>
+
+
+<SelectItem value="bash">
+Bash
+</SelectItem>
+
+
+</SelectContent>
+
+
+</Select>
+
+
+</div>
+
+
+
+
+
+
+{/* Description */}
+
+<div>
+
+<label className="text-sm text-zinc-400">
+Description
+</label>
+
+
+<Textarea
+
+rows={3}
+
+placeholder="Explain your snippet..."
+
+value={description}
+
+onChange={(e)=>setDescription(e.target.value)}
+
+className="
+mt-2
+bg-white/5
+border-white/10
+resize-none
+"
+
+/>
+
+</div>
+
+
+
+
+
+{/* Tags */}
+
+<div>
+
+<label className="text-sm text-zinc-400">
+Tags
+</label>
+
+
+<Input
+
+placeholder="#react,#hooks,#frontend"
+
+value={tags}
+
+onChange={(e)=>setTags(e.target.value)}
+
+className="
+mt-2
+bg-white/5
+border-white/10
+"
+
+/>
+
+
+</div>
+
+
+
+
+
+{/* Code */}
+
+<div>
+
+<label className="text-sm text-zinc-400">
+Code
+</label>
+
+
+<Textarea
+
+rows={10}
+
+placeholder="// paste your code here"
+
+value={code}
+
+onChange={(e)=>setCode(e.target.value)}
+
+className="
+mt-2
+bg-black
+border-white/10
+font-mono
+text-sm
+resize-none
+"
+
+/>
+
+
+</div>
+
+
+</CardContent>
+
+
+</Card>
+
+
+
+</div>
+
+
+
+
+
+<div
+className="
+flex
+justify-end
+gap-3
+pt-5
+border-t
+border-white/10
+"
+>
+
+
+<Button
+
+variant="outline"
+
+onClick={()=>setShowCreateModal(false)}
+
+className="
+rounded-xl
+border-white/10
+bg-white/5
+hover:bg-white/10
+"
+
+>
+
+Cancel
+
+</Button>
+
+
+
+<Button
+
+onClick={createSnippet}
+
+className="
+rounded-xl
+bg-gradient-to-r
+from-blue-600
+to-purple-600
+hover:from-blue-500
+hover:to-purple-500
+"
+
+>
+
+Create Snippet
+
+</Button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</DialogContent>
+
+
+</Dialog>
+
+)
 }
 
-export default CreateSnippetModal;
+
+export default CreateSnippetModal
