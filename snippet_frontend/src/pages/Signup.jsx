@@ -46,7 +46,7 @@ function Signup() {
 
             console.log(response.data)
 
-            alert("Signup Success")
+            alert(response.data.message)
 
 
         }
@@ -54,6 +54,11 @@ function Signup() {
         catch (error) {
 
             console.log(error)
+            alert(
+                error.response?.data?.message
+                ||
+                "Signup failed"
+            )
 
         }
 

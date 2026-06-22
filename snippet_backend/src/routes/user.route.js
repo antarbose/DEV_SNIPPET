@@ -5,6 +5,6 @@ import getProfile from "../controllers/user.controller.js"
 
 const router= express.Router()
 
-router.get("/profile",protectRoute,getProfile)
+router.get("/check",protectRoute,getProfile)
 
 export default router

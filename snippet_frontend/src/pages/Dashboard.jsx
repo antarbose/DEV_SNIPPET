@@ -15,7 +15,8 @@ title:"Python Retry Decorator",
 description:"Retry a function on exception",
 tags:"#retry,#decorator",
 fav:false,
-code:"import tools "
+code:"import tools ",
+default : true
 },
 
 {
@@ -25,7 +26,8 @@ title:"Postgres Upsert",
 description:"Insert or update rows",
 tags:"#database,#sql",
 fav:false,
-code:"import tools "
+code:"import tools ",
+default : true
 },
 
 {
@@ -35,7 +37,8 @@ title:"Flatten Nested Array",
 description:"Recursive flatten function",
 tags:"#array,#recursive",
 fav:false,
-code:"import tools "
+code:"import tools ",
+default : true
 },
 
 {
@@ -45,7 +48,8 @@ title:"Ownership Swap",
 description:"Swap ownership safely",
 tags:"#rust",
 fav:false,
-code:"import tools "
+code:"import tools ",
+default : true 
 },
 
 {
@@ -55,7 +59,8 @@ title:"Git Cleanup",
 description:"Delete merged branches",
 tags:"#git",
 fav:false,
-code:"import tools "
+code:"import tools ",
+default : true
 },
 
 {
@@ -65,7 +70,8 @@ title:"useDebounce Hook",
 description:"Debounce state changes",
 tags:"#hook",
 fav:false,
-code:"import tools "
+code:"import tools ",
+default : true
 }
 
 ])

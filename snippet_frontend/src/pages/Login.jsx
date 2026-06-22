@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input"
 
 
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -28,7 +29,7 @@ function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-
+    const navigate= useNavigate()
 
     async function handleLogin(e) {
 
@@ -47,33 +48,28 @@ function Login() {
                 })
 
 
-            console.log(response.data)
-
-
-            alert(
-                "Login success"
-            )
-
+            alert(response.data.message)
+            navigate("/dashboard")
 
         }
 
         catch (error) {
 
-            console.log(error)
+            alert(
+                error.response?.data?.message ||
+                "Login failed"
+            )
 
         }
-
-
     }
 
 
+        return (
 
-    return (
 
+            <div
 
-        <div
-
-            className="
+                className="
 min-h-screen
 
 flex
@@ -90,14 +86,14 @@ overflow-hidden
 
 "
 
-        >
+            >
 
 
-            {/* background glow */}
+                {/* background glow */}
 
-            <div
+                <div
 
-                className="
+                    className="
 absolute
 
 top-0
@@ -118,14 +114,14 @@ blur-[130px]
 
 "
 
-            />
+                />
 
 
 
 
-            <Card
+                <Card
 
-                className="
+                    className="
 relative
 
 w-[430px]
@@ -144,13 +140,13 @@ shadow-2xl
 
 "
 
-            >
+                >
 
 
 
-                <CardHeader
+                    <CardHeader
 
-                    className="
+                        className="
 text-center
 
 space-y-4
@@ -159,12 +155,12 @@ pt-10
 
 "
 
-                >
+                    >
 
 
-                    <div
+                        <div
 
-                        className="
+                            className="
 mx-auto
 
 flex
@@ -193,18 +189,18 @@ text-xl
 
 "
 
-                    >
+                        >
 
-                        &lt;/&gt;
+                            &lt;/&gt;
 
-                    </div>
-
-
+                        </div>
 
 
-                    <CardTitle
 
-                        className="
+
+                        <CardTitle
+
+                            className="
 text-3xl
 
 font-bold
@@ -215,56 +211,56 @@ tracking-tight
 
 "
 
-                    >
+                        >
 
-                        Welcome Back
+                            Welcome Back
 
-                    </CardTitle>
-
-
+                        </CardTitle>
 
 
-                    <p
 
-                        className="
+
+                        <p
+
+                            className="
 text-zinc-400
 
 text-sm
 
 "
 
-                    >
+                        >
 
-                        Login to continue
+                            Login to continue
 
-                    </p>
-
-
-
-                </CardHeader>
+                        </p>
 
 
 
+                    </CardHeader>
 
 
-                <CardContent
 
-                    className="
+
+
+                    <CardContent
+
+                        className="
 px-10
 
 pb-10
 
 "
 
-                >
+                    >
 
 
 
-                    <form
+                        <form
 
-                        onSubmit={handleLogin}
+                            onSubmit={handleLogin}
 
-                        className="
+                            className="
 flex
 
 flex-col
@@ -273,21 +269,21 @@ gap-5
 
 "
 
-                    >
+                        >
 
 
 
-                        <Input
+                            <Input
 
-                            type="email"
+                                type="email"
 
-                            placeholder="Email"
+                                placeholder="Email"
 
-                            value={email}
+                                value={email}
 
-                            onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => setEmail(e.target.value)}
 
-                            className="
+                                className="
 h-12
 
 rounded-xl
@@ -304,23 +300,23 @@ focus-visible:ring-blue-500
 
 "
 
-                        />
+                            />
 
 
 
 
 
-                        <Input
+                            <Input
 
-                            type="password"
+                                type="password"
 
-                            placeholder="Password"
+                                placeholder="Password"
 
-                            value={password}
+                                value={password}
 
-                            onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) => setPassword(e.target.value)}
 
-                            className="
+                                className="
 h-12
 
 rounded-xl
@@ -337,18 +333,18 @@ focus-visible:ring-blue-500
 
 "
 
-                        />
+                            />
 
 
 
 
 
 
-                        <Button
+                            <Button
 
-                            type="submit"
+                                type="submit"
 
-                            className="
+                                className="
 h-12
 
 rounded-xl
@@ -373,24 +369,24 @@ shadow-blue-500/20
 
 "
 
-                        >
+                            >
 
-                            Login
+                                Login
 
-                        </Button>
-
-
-
-
-                    </form>
+                            </Button>
 
 
 
 
+                        </form>
 
-                    <p
 
-                        className="
+
+
+
+                        <p
+
+                            className="
 mt-6
 
 text-center
@@ -401,17 +397,17 @@ text-zinc-400
 
 "
 
-                    >
+                        >
 
 
-                        New here?
+                            New here?
 
 
-                        <Link
+                            <Link
 
-                            to="/signup"
+                                to="/signup"
 
-                            className="
+                                className="
 ml-2
 
 text-blue-400
@@ -422,33 +418,33 @@ font-medium
 
 "
 
-                        >
+                            >
 
-                            Create Account
+                                Create Account
 
-                        </Link>
-
-
-
-                    </p>
+                            </Link>
 
 
 
-
-                </CardContent>
-
-
-            </Card>
+                        </p>
 
 
 
-        </div>
+
+                    </CardContent>
 
 
-    )
+                </Card>
 
 
-}
+
+            </div>
 
 
-export default Login
+        )
+
+
+    }
+
+
+    export default Login

@@ -4,6 +4,8 @@ import bcrypt from "bcrypt"
 const registerUser=async(req,res)=>{
 
 try{
+    console.log("REGISTER HIT")
+console.log(req.body)
 
 const {username,email,password}=req.body
 
@@ -97,7 +99,9 @@ res.cookie(
 "token",
 token,
 {
-httpOnly:true
+httpOnly:true,
+secure:false,
+sameSite:"lax"
 }
 )
 
