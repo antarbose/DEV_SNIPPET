@@ -1,5 +1,5 @@
-import AppSidebar from "./AppSidebar"
-import AppHeader from "./Header"
+import AppSidebar from "./AppSidebar.jsx"
+import AppHeader from "./AppHeader.jsx"
 
 import {
     SidebarProvider,

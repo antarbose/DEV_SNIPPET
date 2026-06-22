@@ -117,4 +117,32 @@ message:error.message
 })
 }
 }
-export  {registerUser,loginUser}
+
+const logout=(req,res)=>{
+
+res.clearCookie(
+
+"token",
+
+{
+
+httpOnly:true,
+
+secure:false
+
+}
+
+)
+
+res.status(200).json({
+
+message:"Logout successful"
+
+})
+
+}
+
+
+
+
+export  {registerUser,loginUser,logout}

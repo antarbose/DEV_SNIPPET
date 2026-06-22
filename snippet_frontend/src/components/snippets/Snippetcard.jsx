@@ -250,7 +250,7 @@ flex-wrap
 
 
                     {
-                        snippet.tags.split(",").map(tag => (
+                       (snippet.tags?.split(",") || []).map(tag => (
 
                             <Badge
 

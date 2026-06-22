@@ -16,3 +16,11 @@ return API.post(
 data
 )
 }
+
+export const logout=()=>{
+
+return API.post(
+"/auth/logout"
+)
+
+}

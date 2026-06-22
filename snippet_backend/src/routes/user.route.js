@@ -2,9 +2,13 @@
 import express from "express"
 import protectRoute from "../middlewares/auth.middleware.js"
 import getProfile from "../controllers/user.controller.js"
+import { CreateSnip } from "../controllers/snippet.controller.js"
+import { GetSnip } from "../controllers/snippet.controller.js"
 
 const router= express.Router()
 
 router.get("/check",protectRoute,getProfile)
+router.post("/snippets",protectRoute,CreateSnip)
+router.get("/snippets",protectRoute,GetSnip)
 
 export default router

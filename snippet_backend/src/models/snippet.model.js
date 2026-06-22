@@ -9,6 +9,13 @@ const snippetSchema =
 
         language: String,
 
+        
+
+        fav : {
+            type: Boolean,
+            default : false
+        },
+
         isDefault: {
             type: Boolean,
             default: false

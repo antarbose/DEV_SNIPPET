@@ -38,6 +38,8 @@ import {
   X
 } from "lucide-react"
 
+import { CreateSnippet } from "@/api/snippet.api.js"
+
 
 
 function CreateSnippetModal({
@@ -55,46 +57,98 @@ function CreateSnippetModal({
   const [code, setCode] = useState("")
 
 
-
-  function createSnippet() {
-
+  async function handleCreateSnippet() {
 
     if (
+
       title.trim() === "" ||
-      tags.trim() === "" ||
+
+      language.trim() === "" ||
+
       code.trim() === ""
+
     ) {
+
+      alert(
+        "Fill all fields"
+      )
 
       return
 
     }
 
+    try {
 
-    AddSnippetToDashboard(
-      snippets.length + 1,
-      language,
-      title,
-      description,
-      tags,
-      code
-    )
+      const response =
+
+        await CreateSnippet({
+
+          title,
+
+          code,
+
+          language
+
+        
+
+          
+
+        })
 
 
-    setShowCreateModal(false)
+      // instantly update dashboard
+
+      AddSnippetToDashboard(
+
+        response.data
+
+      )
+
+
+      // reset form
+
+      setTitle("")
+
+      setLanguage("javascript")
+
+      setDescription("")
+
+      setTags("")
+
+      setCode("")
+
+
+      setShowCreateModal(false)
+
+    }
+
+    catch (error) {
+
+      alert(
+
+        error.response
+          ?.data
+          ?.message
+
+        ||
+
+        "Snippet creation failed"
+
+      )
+
+    }
 
   }
 
-
-
   return (
 
-<Dialog
-    open={ShowCreateModal}
-    onOpenChange={setShowCreateModal}
->
+    <Dialog
+      open={ShowCreateModal}
+      onOpenChange={setShowCreateModal}
+    >
 
-<DialogContent
-className="
+      <DialogContent
+        className="
 max-w-[750px]
 max-h-[90vh]
 overflow-hidden
@@ -103,20 +157,20 @@ border border-white/10
 rounded-3xl
 text-white
 "
->
+      >
 
 
-<div className="flex flex-col h-full">
+        <div className="flex flex-col h-full">
 
 
-<DialogHeader className="pb-5">
+          <DialogHeader className="pb-5">
 
 
-<div className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
 
 
-<div
-className="
+              <div
+                className="
 h-11
 w-11
 rounded-2xl
@@ -127,52 +181,52 @@ flex
 items-center
 justify-center
 "
->
+              >
 
-<Code2 size={22}/>
+                <Code2 size={22} />
 
-</div>
+              </div>
 
 
-<div>
+              <div>
 
-<DialogTitle
-className="
+                <DialogTitle
+                  className="
 text-2xl
 font-bold
 "
->
+                >
 
-Create New Snippet
+                  Create New Snippet
 
-</DialogTitle>
+                </DialogTitle>
 
 
-<DialogDescription
-className="
+                <DialogDescription
+                  className="
 text-zinc-400
 "
->
+                >
 
-Save your reusable code snippets
+                  Save your reusable code snippets
 
-</DialogDescription>
-
-
-</div>
+                </DialogDescription>
 
 
-</div>
+              </div>
 
 
-</DialogHeader>
+            </div>
 
 
+          </DialogHeader>
 
 
 
-<div
-className="
+
+
+          <div
+            className="
 overflow-y-auto
 pr-3
 space-y-5
@@ -180,241 +234,241 @@ max-h-[65vh]
 scrollbar-thin
 scrollbar-thumb-zinc-700
 "
->
+          >
 
 
 
-<Card
-className="
+            <Card
+              className="
 bg-transparent
 border-none
 "
->
+            >
 
 
-<CardContent
-className="
+              <CardContent
+                className="
 space-y-5
 p-0
 "
->
+              >
 
 
-{/* ID */}
+                {/* ID */}
 
-<div>
+                <div>
 
-<label className="text-sm text-zinc-400">
-Snippet ID
-</label>
+                  <label className="text-sm text-zinc-400">
+                    Snippet ID
+                  </label>
 
 
-<Input
-value={snippets.length+1}
-readOnly
-className="
+                  <Input
+                    value={snippets.length + 1}
+                    readOnly
+                    className="
 mt-2
 bg-white/5
 border-white/10
 "
-/>
+                  />
 
-</div>
-
-
+                </div>
 
 
-{/* Title */}
-
-<div>
-
-<label className="text-sm text-zinc-400">
-Title
-</label>
 
 
-<Input
+                {/* Title */}
 
-placeholder="React debounce hook"
+                <div>
 
-value={title}
+                  <label className="text-sm text-zinc-400">
+                    Title
+                  </label>
 
-onChange={(e)=>setTitle(e.target.value)}
 
-className="
+                  <Input
+
+                    placeholder="React debounce hook"
+
+                    value={title}
+
+                    onChange={(e) => setTitle(e.target.value)}
+
+                    className="
 mt-2
 bg-white/5
 border-white/10
 "
 
-/>
+                  />
 
-</div>
-
-
+                </div>
 
 
 
-{/* Language */}
-
-<div>
-
-<label className="text-sm text-zinc-400">
-Language
-</label>
 
 
-<Select
-value={language}
-onValueChange={setLanguage}
->
+                {/* Language */}
+
+                <div>
+
+                  <label className="text-sm text-zinc-400">
+                    Language
+                  </label>
 
 
-<SelectTrigger
-className="
+                  <Select
+                    value={language}
+                    onValueChange={setLanguage}
+                  >
+
+
+                    <SelectTrigger
+                      className="
 mt-2
 bg-white/5
 border-white/10
 "
->
+                    >
 
-<SelectValue/>
+                      <SelectValue />
 
-</SelectTrigger>
-
-
-<SelectContent>
+                    </SelectTrigger>
 
 
-<SelectItem value="javascript">
-Javascript
-</SelectItem>
+                    <SelectContent>
 
 
-<SelectItem value="typescript">
-Typescript
-</SelectItem>
+                      <SelectItem value="javascript">
+                        Javascript
+                      </SelectItem>
 
 
-<SelectItem value="python">
-Python
-</SelectItem>
+                      <SelectItem value="typescript">
+                        Typescript
+                      </SelectItem>
 
 
-<SelectItem value="sql">
-SQL
-</SelectItem>
+                      <SelectItem value="python">
+                        Python
+                      </SelectItem>
 
 
-<SelectItem value="rust">
-Rust
-</SelectItem>
+                      <SelectItem value="sql">
+                        SQL
+                      </SelectItem>
 
 
-<SelectItem value="bash">
-Bash
-</SelectItem>
+                      <SelectItem value="rust">
+                        Rust
+                      </SelectItem>
 
 
-</SelectContent>
+                      <SelectItem value="bash">
+                        Bash
+                      </SelectItem>
 
 
-</Select>
+                    </SelectContent>
 
 
-</div>
+                  </Select>
 
 
+                </div>
 
 
 
 
-{/* Description */}
-
-<div>
-
-<label className="text-sm text-zinc-400">
-Description
-</label>
 
 
-<Textarea
+                {/* Description */}
 
-rows={3}
+                <div>
 
-placeholder="Explain your snippet..."
+                  <label className="text-sm text-zinc-400">
+                    Description
+                  </label>
 
-value={description}
 
-onChange={(e)=>setDescription(e.target.value)}
+                  <Textarea
 
-className="
+                    rows={3}
+
+                    placeholder="Explain your snippet..."
+
+                    value={description}
+
+                    onChange={(e) => setDescription(e.target.value)}
+
+                    className="
 mt-2
 bg-white/5
 border-white/10
 resize-none
 "
 
-/>
+                  />
 
-</div>
-
-
+                </div>
 
 
 
-{/* Tags */}
-
-<div>
-
-<label className="text-sm text-zinc-400">
-Tags
-</label>
 
 
-<Input
+                {/* Tags */}
 
-placeholder="#react,#hooks,#frontend"
+                <div>
 
-value={tags}
+                  <label className="text-sm text-zinc-400">
+                    Tags
+                  </label>
 
-onChange={(e)=>setTags(e.target.value)}
 
-className="
+                  <Input
+
+                    placeholder="#react,#hooks,#frontend"
+
+                    value={tags}
+
+                    onChange={(e) => setTags(e.target.value)}
+
+                    className="
 mt-2
 bg-white/5
 border-white/10
 "
 
-/>
+                  />
 
 
-</div>
+                </div>
 
 
 
 
 
-{/* Code */}
+                {/* Code */}
 
-<div>
+                <div>
 
-<label className="text-sm text-zinc-400">
-Code
-</label>
+                  <label className="text-sm text-zinc-400">
+                    Code
+                  </label>
 
 
-<Textarea
+                  <Textarea
 
-rows={10}
+                    rows={10}
 
-placeholder="// paste your code here"
+                    placeholder="// paste your code here"
 
-value={code}
+                    value={code}
 
-onChange={(e)=>setCode(e.target.value)}
+                    onChange={(e) => setCode(e.target.value)}
 
-className="
+                    className="
 mt-2
 bg-black
 border-white/10
@@ -423,27 +477,27 @@ text-sm
 resize-none
 "
 
-/>
+                  />
 
 
-</div>
+                </div>
 
 
-</CardContent>
+              </CardContent>
 
 
-</Card>
-
-
-
-</div>
+            </Card>
 
 
 
+          </div>
 
 
-<div
-className="
+
+
+
+          <div
+            className="
 flex
 justify-end
 gap-3
@@ -451,35 +505,35 @@ pt-5
 border-t
 border-white/10
 "
->
+          >
 
 
-<Button
+            <Button
 
-variant="outline"
+              variant="outline"
 
-onClick={()=>setShowCreateModal(false)}
+              onClick={() => setShowCreateModal(false)}
 
-className="
+              className="
 rounded-xl
 border-white/10
 bg-white/5
 hover:bg-white/10
 "
 
->
+            >
 
-Cancel
+              Cancel
 
-</Button>
+            </Button>
 
 
 
-<Button
+            <Button
 
-onClick={createSnippet}
+              onClick={handleCreateSnippet}
 
-className="
+              className="
 rounded-xl
 bg-gradient-to-r
 from-blue-600
@@ -488,27 +542,27 @@ hover:from-blue-500
 hover:to-purple-500
 "
 
->
+            >
 
-Create Snippet
+              Create Snippet
 
-</Button>
-
-
-
-</div>
+            </Button>
 
 
 
-</div>
+          </div>
 
 
-</DialogContent>
+
+        </div>
 
 
-</Dialog>
+      </DialogContent>
 
-)
+
+    </Dialog>
+
+  )
 }
 
 
