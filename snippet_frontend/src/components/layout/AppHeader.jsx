@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
 import { Search, Sparkles } from "lucide-react"
 
+import { useState, useEffect } from "react"
+import { checkAuth } from "@/api/user.api.js"
+
 import {
     logout
 }
@@ -17,7 +20,34 @@ function AppHeader({
     setFavourites
 }) {
 
-    const navigate= useNavigate()
+    const navigate = useNavigate()
+
+    const [authenticated, setAuthenticated] = useState(null) // we use this state so that login signup buttons dont appear once we enter dashboard
+
+    useEffect(() => {
+
+        async function CheckUser() {
+
+            try {
+
+                const response = await checkAuth()
+                if (response.data.message === "Authenticated")
+                    setAuthenticated(true)
+                else
+                    setAuthenticated(false)
+            }
+
+            catch {
+
+                setAuthenticated(false)
+
+            }
+        }
+
+        CheckUser()
+
+    }, [])
+
     async function handleLogout() {
 
         try {
@@ -33,6 +63,8 @@ function AppHeader({
             navigate(
                 "/login"
             )
+
+            setAuthenticated(false)
 
         }
 
@@ -226,116 +258,94 @@ function AppHeader({
 
             <div
                 className="
-                flex
-                items-center
-                gap-3
-                "
+    flex
+    items-center
+    gap-3
+    "
             >
 
-                <Link to="/login">
+                {!authenticated ? (
+
+                    <>
+
+                        <Link to="/login">
+
+                            <button
+                                className="
+                    h-11
+                    px-5
+                    rounded-xl
+                    border
+                    border-white/10
+                    bg-white/[0.04]
+                    text-zinc-300
+                    hover:bg-white/10
+                    hover:text-white
+                    transition-all
+                    "
+                            >
+                                Login
+                            </button>
+
+                        </Link>
+
+
+                        <Link to="/signup">
+
+                            <button
+                                className="
+                    h-11
+                    px-5
+                    rounded-xl
+                    bg-gradient-to-r
+                    from-blue-600
+                    to-indigo-600
+                    text-white
+                    font-medium
+                    shadow-lg
+                    shadow-blue-500/20
+                    hover:from-blue-500
+                    hover:to-indigo-500
+                    transition-all
+                    "
+                            >
+                                Signup
+                            </button>
+
+                        </Link>
+
+                    </>
+
+                ) : (
 
                     <button
-
+                        onClick={handleLogout}
                         className="
-                        h-11
-                        px-5
-
-                        rounded-xl
-
-                        border
-                        border-white/10
-
-                        bg-white/[0.04]
-
-                        text-zinc-300
-
-                        hover:bg-white/10
-
-                        hover:text-white
-
-                        transition-all
-
-                        "
+            h-11
+            px-5
+            rounded-xl
+            bg-gradient-to-r
+            from-blue-600
+            to-indigo-600
+            text-white
+            font-medium
+            shadow-lg
+            shadow-blue-500/20
+            hover:from-blue-500
+            hover:to-indigo-500
+            transition-all
+            "
                     >
-
-                        Login
-
+                        Logout
                     </button>
 
-                </Link>
-
-
-
-                <Link to="/signup">
-
-                    <button
-
-                        className="
-                        h-11
-                        px-5
-
-                        rounded-xl
-
-                        bg-gradient-to-r
-                        from-blue-600
-                        to-indigo-600
-
-                        text-white
-
-                        font-medium
-
-                        shadow-lg
-                        shadow-blue-500/20
-
-                        hover:from-blue-500
-                        hover:to-indigo-500
-
-                        transition-all
-
-                        "
-                    >
-
-                        Signup
-
-                    </button>
-
-                </Link>
-
-                <button
-                    onClick ={handleLogout}
-                    className="
-                        h-11
-                        px-5
-
-                        rounded-xl
-
-                        bg-gradient-to-r
-                        from-blue-600
-                        to-indigo-600
-
-                        text-white
-
-                        font-medium
-
-                        shadow-lg
-                        shadow-blue-500/20
-
-                        hover:from-blue-500
-                        hover:to-indigo-500
-
-                        transition-all
-
-                        "
-                >
-
-                    Logout
-
-                </button>
-
-
-
+                )}
 
             </div>
+
+
+
+
 
 
 

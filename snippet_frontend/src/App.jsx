@@ -5,6 +5,7 @@ import Login from "./pages/Login.jsx"
 import Signup from "./pages/Signup.jsx"
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
+import GuestRoute from "./components/layout/GuestRoute.jsx"
 
 import { useState } from "react"
 
@@ -77,7 +78,9 @@ function App() {
           path="/login"
 
           element={
-            <Login />
+            <GuestRoute>
+              <Login />
+            </GuestRoute>
           }
 
         />
@@ -88,7 +91,9 @@ function App() {
           path="/signup"
 
           element={
-            <Signup />
+            <GuestRoute>
+              <Signup/>
+            </GuestRoute>
           }
 
         />

@@ -25,7 +25,43 @@ function Signup() {
 
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
+    const [emailError, setEmailError] = useState("")
     const [password, setPassword] = useState("")
+    const [passwordError, setPasswordError] = useState("")
+
+    //validation for emails and passwords....
+
+    function handleEmail(e) {
+        const value = e.target.value;
+        setEmail(value);
+
+        const emailRegex =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(value)) {
+            setEmailError("Please enter a valid email address");
+        } else {
+            setEmailError("");
+        }
+    }
+
+
+    function handlePassword(e) {
+        const value = e.target.value;
+        setPassword(value);
+
+        const passwordRegex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
+
+        if (!passwordRegex.test(value)) {
+            setPasswordError(
+                "Password must contain uppercase, lowercase, number, special character and be at least 8 characters."
+            );
+        } else {
+            setPasswordError("");
+        }
+    }
+
 
 
 
@@ -33,6 +69,10 @@ function Signup() {
 
         e.preventDefault()
 
+        if (emailError || passwordError) {
+            alert("Please enter valid email or password !!")
+            return;
+        }
         try {
 
             const response =
@@ -312,7 +352,7 @@ focus-visible:ring-blue-500
 
                             value={email}
 
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={handleEmail}
 
                             className="
 h-12
@@ -332,6 +372,13 @@ focus-visible:ring-blue-500
 "
 
                         />
+
+                        {emailError && (
+                            <p className="text-red-500 text-sm">
+                                {emailError}
+                            </p>
+                        )}
+
 
 
 
@@ -345,7 +392,7 @@ focus-visible:ring-blue-500
 
                             value={password}
 
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={handlePassword}
 
                             className="
 h-12
@@ -365,6 +412,14 @@ focus-visible:ring-blue-500
 "
 
                         />
+
+
+                        {passwordError && (
+                            <p className="text-red-500 text-sm">
+                                {passwordError}
+                            </p>
+                        )}
+
 
 
 
@@ -404,6 +459,25 @@ shadow-blue-500/20
                             Create Account
 
                         </Button>
+
+
+
+                        <Button
+
+                            onClick={() => {
+
+                                window.location.href =
+
+                                    "http://localhost:8000/api/auth/google"
+
+                            }}
+
+                        >
+
+                            Continue with Google
+
+                        </Button>
+
 
 
 
