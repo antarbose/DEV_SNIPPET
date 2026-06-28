@@ -1,5 +1,5 @@
 import { FiEdit } from "react-icons/fi"
-
+import { Trash2 } from "lucide-react"
 import {
     Card,
     CardContent,
@@ -11,18 +11,69 @@ import {
 import { Badge } from "@/components/ui/badge"
 
 import { Button } from "@/components/ui/button"
+import {
+
+    DeleteSnippet
+
+}
+
+    from "@/api/snippet.api.js"
 
 
 
 function Snippetcard({
     snippet,
+
     Selectedsnippet,
     setSelectedsnippet,
     togglefavourites,
+    setIsEditing,
+    setShowCreateModal,
+    setCurrentSnippet,
+    RemoveSnippetFromDashboard
     // setShowEditSnippet,
     // editId,
     //setEditId
 }) {
+
+
+
+    // this function handles delete snippet....
+
+    async function handleDelete() {
+
+        const confirmDelete =
+
+            window.confirm(
+
+                "Delete this snippet?"
+
+            )
+
+        if (!confirmDelete)
+            return
+
+        try {
+
+            await DeleteSnippet(
+                snippet._id
+            )
+
+            RemoveSnippetFromDashboard(
+                snippet._id
+            )
+
+        }
+
+        catch {
+
+            alert(
+                "Delete failed"
+            )
+
+        }
+
+    }
 
 
     return (
@@ -104,38 +155,48 @@ tracking-wider
                         {snippet.language}
 
                     </Badge>
-
-
-                    {/* 
+            <div className="flex ">
                     <Button
-
                         size="icon"
-
                         variant="ghost"
-
                         className="
-text-zinc-400
-
-hover:text-white
-
-hover:bg-white/10
-"
+                            text-zinc-400
+                          hover:text-white
+                            hover:bg-white/10"
 
                         onClick={(e) => {
-
-                            e.stopPropagation()
-
-                            setShowEditSnippet(true)
-
-                            setEditId(snippet.id)
+                            e.stopPropagation();
+                            setIsEditing(true)
+                            setCurrentSnippet(snippet)
+                            setShowCreateModal(true)
 
                         }}
-
                     >
-
                         <FiEdit size={18} />
+                    </Button>
 
-                    </Button> */}
+
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        className="
+                            text-zinc-400
+                          hover:text-white
+                            hover:bg-white/10"
+
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete()
+                        }}
+                    >
+                        <Trash2 size={18} />
+                    </Button>
+             </div>
+
+
+
+
+
 
 
                 </div>
@@ -250,7 +311,7 @@ flex-wrap
 
 
                     {
-                       (snippet.tags?.split(",") || []).map(tag => (
+                        (snippet.tags?.split(",") || []).map(tag => (
 
                             <Badge
 

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 
 import {
   Dialog,
@@ -38,7 +38,7 @@ import {
   X
 } from "lucide-react"
 
-import { CreateSnippet } from "@/api/snippet.api.js"
+import { CreateSnippet, UpdateSnippet } from "@/api/snippet.api.js"
 
 
 
@@ -46,17 +46,64 @@ function CreateSnippetModal({
   ShowCreateModal,
   setShowCreateModal,
   snippets,
-  AddSnippetToDashboard
+  AddSnippetToDashboard,
+  currentSnippet,
+  isEditing,// to check whether we want to edit snippet or create snippet.....
+  setIsEditing,
+  UpdateSnippetInDashboard
 }) {
 
 
-  const [title, setTitle] = useState("")
+ const [title, setTitle] = useState("")
   const [language, setLanguage] = useState("javascript")
   const [description, setDescription] = useState("")
   const [tags, setTags] = useState("")
   const [code, setCode] = useState("")
+  
 
 
+
+  useEffect(() => { //to keep my fields prefilled if i want to edit snippet......
+
+    if (
+      isEditing &&
+      currentSnippet
+    ) {
+
+      setTitle(
+        currentSnippet.title
+      )
+
+      setLanguage(
+        currentSnippet.language
+      )
+
+      setDescription(
+        currentSnippet.description || ""
+      )
+
+      setTags(
+        currentSnippet.tags || ""
+      )
+
+      setCode(
+        currentSnippet.code
+      )
+    }
+
+  }, [
+    isEditing,
+   currentSnippet
+  ])
+
+
+
+
+
+
+ 
+ 
+  // for handling create snippets....
   async function handleCreateSnippet() {
 
     if (
@@ -89,9 +136,9 @@ function CreateSnippetModal({
 
           language
 
-        
 
-          
+
+
 
         })
 
@@ -139,6 +186,59 @@ function CreateSnippetModal({
     }
 
   }
+
+  
+// function for updating snippets....
+
+async function saveSnippet() {
+
+  try {
+    
+
+      console.log("Current snippet:", currentSnippet);
+    console.log("Updating ID:", currentSnippet?._id);
+
+
+
+    const response =
+      await UpdateSnippet(
+
+        currentSnippet._id,
+
+        {
+          title,
+          language,
+          description,
+          tags,
+          code
+        }
+
+      )
+      
+      console.log("Update response:", response);
+
+      UpdateSnippetInDashboard(
+        response.data
+      )
+
+      setShowCreateModal(false)
+      setIsEditing(false)
+
+  }
+
+  catch(error) {
+    console.log("Update error:", error);
+    alert(
+      "Update failed"
+    )
+
+  }
+}
+
+
+
+
+console.log("Editing snippet:", currentSnippet);
 
   return (
 
@@ -197,7 +297,7 @@ font-bold
 "
                 >
 
-                  Create New Snippet
+                  {isEditing ? "Update Snippet" : "Create New Snippet"}
 
                 </DialogTitle>
 
@@ -253,27 +353,27 @@ p-0
 "
               >
 
-
+{/* 
                 {/* ID */}
 
                 <div>
-
+{/* 
                   <label className="text-sm text-zinc-400">
                     Snippet ID
                   </label>
 
 
                   <Input
-                    value={snippets.length + 1}
+                    value={isEditing? currentSnippet.id : snippets.length + 1}
                     readOnly
                     className="
 mt-2
 bg-white/5
 border-white/10
 "
-                  />
+                  /> */}
 
-                </div>
+                </div> 
 
 
 
@@ -531,7 +631,7 @@ hover:bg-white/10
 
             <Button
 
-              onClick={handleCreateSnippet}
+              onClick={isEditing? saveSnippet : handleCreateSnippet}
 
               className="
 rounded-xl
@@ -544,7 +644,7 @@ hover:to-purple-500
 
             >
 
-              Create Snippet
+             {isEditing? "Update Snippet" : "Create  Snippet"}
 
             </Button>
 

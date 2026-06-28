@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import Snippetcard from "../components/snippets/Snippetcard.jsx";
-import Sidebar from "../components/layout/AppSidebar.jsx";
+//import Sidebar from "../components/layout/AppSidebar.jsx";
 import Snippetmodal from "../components/snippets/Snippetmodal.jsx";
 import CreateSnippetModal from "../components/snippets/CreateSnippetModal.jsx";
 import { GetSnippet } from "@/api/snippet.api.js";
 //import Editsnippet from "../components/snippets/Editsnippet.jsx";
 function Dashboard({ Selectedlanguage, Searchcontent, Selectedsnippet, setSelectedsnippet, Favourites, setFavourites, ShowCreateModal, setShowCreateModal }) {
-    const [editId, setEditId] = useState(0) // To store the id of the snippet to be edited
+    const [currentSnippet, setCurrentSnippet] = useState(null)
+    const [isEditing, setIsEditing] = useState(false)
+
     const [snippets, setSnippets] = useState([   // snippets is given under state because we want to update snippets whenever we click on Mark as fav of a particular snippet...the key value pair "fav" of that snippet must change
 
         {
@@ -90,7 +92,7 @@ function Dashboard({ Selectedlanguage, Searchcontent, Selectedsnippet, setSelect
 
 
                 setSnippets(
-                  response.data
+                    response.data
 
                 )
 
@@ -230,24 +232,82 @@ fav:false
     }
 
 
-    function EditSnippet(id) {
-        setSnippets(() => {
-            return snippets.map((snippet) => {
-                if (id === snippet.id) {
-                    return ({
-                        id: snippet.id,
-                        language: snippet.language,
-                        title: snippet.title,
-                        description: snippet.description,
-                        tags: snippet.tags,
-                        fav: !snippet.fav,
-                        code: snippet.code
-                    })
+    // function EditSnippet(id) {
+    //     setSnippets(() => {
+    //         return snippets.map((snippet) => {
+    //             if (id === snippet.id) {
+    //                 return ({
+    //                     id: snippet.id,
+    //                     language: snippet.language,
+    //                     title: snippet.title,
+    //                     description: snippet.description,
+    //                     tags: snippet.tags,
+    //                     fav: !snippet.fav,
+    //                     code: snippet.code
+    //                 })
 
-                }
-                else return snippet
-            })
-        })
+    //             }
+    //             else return snippet
+    //         })
+    //     })
+    // }
+
+
+
+
+    // This function adds snippet to dashboard after updating it....
+
+
+    function UpdateSnippetInDashboard(
+        updatedSnippet
+    ) {
+
+        setSnippets(
+
+            prev =>
+
+                prev.map(
+
+                    snippet =>
+
+                        snippet._id ===
+                            updatedSnippet._id
+
+                            ?
+
+                            updatedSnippet
+
+                            :
+
+                            snippet
+
+                )
+
+        )
+
+    }
+
+
+    // function to delete snippet from dashboard...
+
+    function RemoveSnippetFromDashboard(
+        id
+    ) {
+
+        setSnippets(
+
+            prev =>
+
+                prev.filter(
+
+                    snippet =>
+
+                        snippet._id !== id
+
+                )
+
+        )
+
     }
 
     // function OriginalSnippet(){ // this function returns the original snippet before editing....the snippet values will be send to editsnippetcard ....
@@ -272,8 +332,11 @@ fav:false
                         Selectedsnippet={Selectedsnippet}
                         setSelectedsnippet={setSelectedsnippet}
                         togglefavourites={togglefavourites}
-                        editId={editId}
-                        setEditId={setEditId}
+                        setShowCreateModal={setShowCreateModal}
+
+                        setIsEditing={setIsEditing}
+                        setCurrentSnippet={setCurrentSnippet}
+                        RemoveSnippetFromDashboard={RemoveSnippetFromDashboard}
                     />
                 ))}
 
@@ -291,6 +354,10 @@ fav:false
                 setShowCreateModal={setShowCreateModal}
                 snippets={snippets}
                 AddSnippetToDashboard={AddSnippetToDashboard}
+                currentSnippet={currentSnippet}
+                UpdateSnippetInDashboard={UpdateSnippetInDashboard}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
             />
             {/* <Editsnippet
         orgtitle={OriginalSnippet().title} // original title of snippet before editing...

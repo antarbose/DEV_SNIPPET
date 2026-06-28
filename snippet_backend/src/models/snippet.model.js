@@ -9,6 +9,10 @@ const snippetSchema =
 
         language: String,
 
+        description : String,
+         
+        tags : String,
+
         
 
         fav : {
