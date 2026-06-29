@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
 
 import {
   Dialog,
@@ -38,6 +38,8 @@ import {
   X
 } from "lucide-react"
 
+import Editor from "@monaco-editor/react"
+
 import { CreateSnippet, UpdateSnippet } from "@/api/snippet.api.js"
 
 
@@ -54,12 +56,12 @@ function CreateSnippetModal({
 }) {
 
 
- const [title, setTitle] = useState("")
+  const [title, setTitle] = useState("")
   const [language, setLanguage] = useState("javascript")
   const [description, setDescription] = useState("")
   const [tags, setTags] = useState("")
   const [code, setCode] = useState("")
-  
+
 
 
 
@@ -93,7 +95,7 @@ function CreateSnippetModal({
 
   }, [
     isEditing,
-   currentSnippet
+    currentSnippet
   ])
 
 
@@ -101,8 +103,8 @@ function CreateSnippetModal({
 
 
 
- 
- 
+
+
   // for handling create snippets....
   async function handleCreateSnippet() {
 
@@ -187,34 +189,34 @@ function CreateSnippetModal({
 
   }
 
-  
-// function for updating snippets....
 
-async function saveSnippet() {
+  // function for updating snippets....
 
-  try {
-    
+  async function saveSnippet() {
+
+    try {
+
 
       console.log("Current snippet:", currentSnippet);
-    console.log("Updating ID:", currentSnippet?._id);
+      console.log("Updating ID:", currentSnippet?._id);
 
 
 
-    const response =
-      await UpdateSnippet(
+      const response =
+        await UpdateSnippet(
 
-        currentSnippet._id,
+          currentSnippet._id,
 
-        {
-          title,
-          language,
-          description,
-          tags,
-          code
-        }
+          {
+            title,
+            language,
+            description,
+            tags,
+            code
+          }
 
-      )
-      
+        )
+
       console.log("Update response:", response);
 
       UpdateSnippetInDashboard(
@@ -224,21 +226,21 @@ async function saveSnippet() {
       setShowCreateModal(false)
       setIsEditing(false)
 
+    }
+
+    catch (error) {
+      console.log("Update error:", error);
+      alert(
+        "Update failed"
+      )
+
+    }
   }
 
-  catch(error) {
-    console.log("Update error:", error);
-    alert(
-      "Update failed"
-    )
-
-  }
-}
 
 
 
-
-console.log("Editing snippet:", currentSnippet);
+  console.log("Editing snippet:", currentSnippet);
 
   return (
 
@@ -353,11 +355,11 @@ p-0
 "
               >
 
-{/* 
+                {/* 
                 {/* ID */}
 
                 <div>
-{/* 
+                  {/* 
                   <label className="text-sm text-zinc-400">
                     Snippet ID
                   </label>
@@ -373,7 +375,7 @@ border-white/10
 "
                   /> */}
 
-                </div> 
+                </div>
 
 
 
@@ -557,26 +559,14 @@ border-white/10
                     Code
                   </label>
 
-
-                  <Textarea
-
-                    rows={10}
-
-                    placeholder="// paste your code here"
-
+                  <Editor
+                    height="400px"
+                    language={language}
+                    theme="vs-dark"
                     value={code}
-
-                    onChange={(e) => setCode(e.target.value)}
-
-                    className="
-mt-2
-bg-black
-border-white/10
-font-mono
-text-sm
-resize-none
-"
-
+                    onChange={(value) =>
+                      setCode(value)
+                    }
                   />
 
 
@@ -631,7 +621,7 @@ hover:bg-white/10
 
             <Button
 
-              onClick={isEditing? saveSnippet : handleCreateSnippet}
+              onClick={isEditing ? saveSnippet : handleCreateSnippet}
 
               className="
 rounded-xl
@@ -644,7 +634,7 @@ hover:to-purple-500
 
             >
 
-             {isEditing? "Update Snippet" : "Create  Snippet"}
+              {isEditing ? "Update Snippet" : "Create  Snippet"}
 
             </Button>
 

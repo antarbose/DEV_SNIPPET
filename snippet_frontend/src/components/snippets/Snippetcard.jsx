@@ -2,9 +2,9 @@ import { useState } from "react"
 import { FiEdit } from "react-icons/fi"
 import { Trash2 } from "lucide-react"
 import {
-  Copy
+    Copy
 }
-from "lucide-react"
+    from "lucide-react"
 import {
     Card,
     CardContent,
@@ -31,6 +31,16 @@ import {
 }
 
     from "@/api/snippet.api"
+
+
+import { Prism as SyntaxHighlighter }
+    from "react-syntax-highlighter"
+
+import {
+    oneDark
+}
+    from "react-syntax-highlighter/dist/esm/styles/prism"
+
 
 
 
@@ -275,7 +285,7 @@ tracking-wider
 
                         <button
 
-                            
+
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleCopy()
@@ -363,28 +373,19 @@ overflow-hidden
 "
 
                 >
-
-                    <pre
-
-                        className="
-font-mono
-
-text-sm
-
-text-zinc-300
-
-whitespace-pre-wrap
-"
-
+                    <SyntaxHighlighter
+                        language={snippet.language}
+                        style={oneDark}
+                        customStyle={{
+                            margin: 0,
+                            borderRadius: "12px",
+                            background: "#09090b"
+                        }}
                     >
-
                         {snippet.code}
+                    </SyntaxHighlighter>
 
-                    </pre>
-
-
-                </div>
-
+            </div>
 
             </CardContent>
 
