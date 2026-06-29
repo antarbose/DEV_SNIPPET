@@ -42,3 +42,14 @@ export const DeleteSnippet =
   )
 
 }
+
+// for toggling favourite snippets...
+
+export const ToggleFavourite =
+(id) => {
+
+  return API.patch(
+    `/user/snippets/${id}/favourite`
+  )
+
+}

@@ -172,24 +172,53 @@ fav:false
 
 ]
 */
-    function togglefavourites(id) {  //This function is created so that whenever we "mark as fav" a snippet it becomes favourite and vice versa...it basically returns the updated snippet  array...the func takes id as paramater so that only the particular snippet we select gets marked as fav....
-        setSnippets(() => {
-            return snippets.map((snippet) => {
-                if (id === snippet.id) {
-                    return ({
-                        id: snippet.id,
-                        language: snippet.language,
-                        title: snippet.title,
-                        description: snippet.description,
-                        tags: snippet.tags,
-                        fav: !snippet.fav,
-                        code: snippet.code
-                    })
+    // function togglefavourites(id) {  //This function is created so that whenever we "mark as fav" a snippet it becomes favourite and vice versa...it basically returns the updated snippet  array...the func takes id as paramater so that only the particular snippet we select gets marked as fav....
+    //     setSnippets(() => {
+    //         return snippets.map((snippet) => {
+    //             if (id === snippet.id) {
+    //                 return ({
+    //                     id: snippet.id,
+    //                     language: snippet.language,
+    //                     title: snippet.title,
+    //                     description: snippet.description,
+    //                     tags: snippet.tags,
+    //                     fav: !snippet.fav,
+    //                     code: snippet.code
+    //                 })
 
-                }
-                else return snippet
-            })
-        })
+    //             }
+    //             else return snippet
+    //         })
+    //     })
+    // }
+// This funcion updates all snippets in dashboard wrt to favourites....
+    function UpdateFavouriteInDashboard(
+        updatedSnippet
+    ) {
+
+        setSnippets(
+
+            prev =>
+
+                prev.map(
+
+                    snippet =>
+
+                        snippet._id ===
+                            updatedSnippet._id
+
+                            ?
+
+                            updatedSnippet
+
+                            :
+
+                            snippet
+
+                )
+
+        )
+
     }
 
     if (Favourites == true) {
@@ -331,12 +360,13 @@ fav:false
                         snippet={snippet}
                         Selectedsnippet={Selectedsnippet}
                         setSelectedsnippet={setSelectedsnippet}
-                        togglefavourites={togglefavourites}
+                       
                         setShowCreateModal={setShowCreateModal}
 
                         setIsEditing={setIsEditing}
                         setCurrentSnippet={setCurrentSnippet}
                         RemoveSnippetFromDashboard={RemoveSnippetFromDashboard}
+                        UpdateFavouriteInDashboard={UpdateFavouriteInDashboard}
                     />
                 ))}
 

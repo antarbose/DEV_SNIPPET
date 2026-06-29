@@ -19,6 +19,14 @@ import {
 
     from "@/api/snippet.api.js"
 
+import {
+
+    ToggleFavourite
+
+}
+
+    from "@/api/snippet.api"
+
 
 
 function Snippetcard({
@@ -26,11 +34,11 @@ function Snippetcard({
 
     Selectedsnippet,
     setSelectedsnippet,
-    togglefavourites,
     setIsEditing,
     setShowCreateModal,
     setCurrentSnippet,
-    RemoveSnippetFromDashboard
+    RemoveSnippetFromDashboard,
+    UpdateFavouriteInDashboard
     // setShowEditSnippet,
     // editId,
     //setEditId
@@ -69,6 +77,35 @@ function Snippetcard({
 
             alert(
                 "Delete failed"
+            )
+
+        }
+
+    }
+
+
+    // This function handles favourite snippets...
+
+    async function handleFavourite() {
+
+        try {
+
+            const response =
+
+                await ToggleFavourite(
+                    snippet._id
+                )
+
+            UpdateFavouriteInDashboard(
+                response.data
+            )
+
+        }
+
+        catch {
+
+            alert(
+                "Failed"
             )
 
         }
@@ -155,43 +192,43 @@ tracking-wider
                         {snippet.language}
 
                     </Badge>
-            <div className="flex ">
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="
+                    <div className="flex ">
+                        <Button
+                            size="icon"
+                            variant="ghost"
+                            className="
                             text-zinc-400
                           hover:text-white
                             hover:bg-white/10"
 
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsEditing(true)
-                            setCurrentSnippet(snippet)
-                            setShowCreateModal(true)
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsEditing(true)
+                                setCurrentSnippet(snippet)
+                                setShowCreateModal(true)
 
-                        }}
-                    >
-                        <FiEdit size={18} />
-                    </Button>
+                            }}
+                        >
+                            <FiEdit size={18} />
+                        </Button>
 
 
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="
+                        <Button
+                            size="icon"
+                            variant="ghost"
+                            className="
                             text-zinc-400
                           hover:text-white
                             hover:bg-white/10"
 
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleDelete()
-                        }}
-                    >
-                        <Trash2 size={18} />
-                    </Button>
-             </div>
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleDelete()
+                            }}
+                        >
+                            <Trash2 size={18} />
+                        </Button>
+                    </div>
 
 
 
@@ -366,7 +403,7 @@ hover:bg-blue-500/10
 
                         e.stopPropagation()
 
-                        togglefavourites(snippet.id)
+                        handleFavourite()
 
                     }}
 

@@ -155,3 +155,54 @@ export const DeleteSnippet =
         }
 
     }
+
+// for toggling favourite snippets...
+
+export const ToggleFavourite =
+    async (req, res) => {
+
+        try {
+
+            const snippet =
+                await Snippet.findOne({
+
+                    _id: req.params.id,
+
+                    owner: req.user.id
+
+                })
+
+            if (!snippet) {
+
+                return res.status(404).json({
+
+                    message:
+                        "Snippet not found"
+
+                })
+
+            }
+
+            snippet.fav =
+                !snippet.fav
+
+            await snippet.save()
+
+            res.status(200).json(
+                snippet
+            )
+
+        }
+
+        catch {
+
+            res.status(500).json({
+
+                message:
+                    "Failed"
+
+            })
+
+        }
+
+    }

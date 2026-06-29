@@ -2,7 +2,7 @@
 import express from "express"
 import protectRoute from "../middlewares/auth.middleware.js"
 import getProfile from "../controllers/user.controller.js"
-import { CreateSnip, UpdateSnippet, DeleteSnippet} from "../controllers/snippet.controller.js"
+import { CreateSnip, UpdateSnippet, DeleteSnippet, ToggleFavourite} from "../controllers/snippet.controller.js"
 import { GetSnip } from "../controllers/snippet.controller.js"
 
 const router= express.Router()
@@ -15,5 +15,11 @@ router.delete(
   "/snippets/:id",
   protectRoute,
   DeleteSnippet
+)
+
+router.patch(
+  "/snippets/:id/favourite",
+  protectRoute,
+  ToggleFavourite
 )
 export default router
