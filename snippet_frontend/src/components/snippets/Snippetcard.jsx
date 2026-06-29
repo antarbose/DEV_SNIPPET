@@ -1,5 +1,10 @@
+import { useState } from "react"
 import { FiEdit } from "react-icons/fi"
 import { Trash2 } from "lucide-react"
+import {
+  Copy
+}
+from "lucide-react"
 import {
     Card,
     CardContent,
@@ -44,7 +49,11 @@ function Snippetcard({
     //setEditId
 }) {
 
-
+    const [
+        copied,
+        setCopied
+    ] =
+        useState(false)
 
     // this function handles delete snippet....
 
@@ -106,6 +115,39 @@ function Snippetcard({
 
             alert(
                 "Failed"
+            )
+
+        }
+
+    }
+
+
+    // This function handles copy snippet...
+
+    async function handleCopy() {
+
+        try {
+
+            await navigator
+                .clipboard
+                .writeText(
+                    snippet.code
+                )
+
+            setCopied(true)
+
+            setTimeout(() => {
+
+                setCopied(false)
+
+            }, 2000)
+
+        }
+
+        catch {
+
+            alert(
+                "Failed to copy"
             )
 
         }
@@ -228,6 +270,39 @@ tracking-wider
                         >
                             <Trash2 size={18} />
                         </Button>
+
+
+
+                        <button
+
+                            
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleCopy()
+                            }}
+
+                            className={`
+    p-2
+    rounded-lg
+    transition-all
+
+    ${copied
+
+                                    ?
+
+                                    "text-green-400 bg-green-500/10"
+
+                                    :
+
+                                    "text-zinc-500 hover:text-blue-400 hover:bg-blue-500/10"
+                                }
+
+  `}
+                        >
+
+                            <Copy size={18} />
+
+                        </button>
                     </div>
 
 
